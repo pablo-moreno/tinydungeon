@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkwnx2u41ufkd"]
+
+[ext_resource type="Script" path="res://characters/hero/CameraLimitter.gd" id="1_vn7kg"]
+
+[node name="CameraLimitter" type="Node"]
+script = ExtResource("1_vn7kg")
