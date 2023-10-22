@@ -54,6 +54,7 @@ collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_j3hwt")
 SPEED = 150.0
+DASH_MODIFIER = 10.0
 
 [node name="Health" type="Node" parent="Body"]
 script = ExtResource("5_spf4k")
@@ -85,6 +86,9 @@ limit_top = 0
 
 [node name="CameraLimitter" type="Node" parent="Body"]
 script = ExtResource("5_6i6pd")
+
+[node name="Timer" type="Timer" parent="Body"]
+one_shot = true
 
 [connection signal="change_health" from="Body/Health" to="Body/HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Body/Health" to="Body/HealthBar" method="_on_health_change_max_health"]
