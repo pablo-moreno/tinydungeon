@@ -18,5 +18,8 @@ func _on_area_entered(hitbox: HitBox):
     
     var health: Health = owner.find_child("Health")
     
-    if health != null:
-        health.take_damage(hitbox.damage)
+    if health == null:
+        printerr("Health node not found")
+        return
+
+    health.take_damage(hitbox.damage)

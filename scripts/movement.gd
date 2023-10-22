@@ -13,3 +13,6 @@ func _physics_process(_delta):
 
     velocity = input_direction * SPEED
     move_and_slide()
+
+func _on_health_damaged():
+    _animated_sprite.play("hurt")

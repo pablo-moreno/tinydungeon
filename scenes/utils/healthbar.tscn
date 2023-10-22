@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlwr6fh761ep3"]
+
+[ext_resource type="Script" path="res://characters/hero/health_bar.gd" id="1_ilaqd"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_dmlxq"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c74s4"]
+texture = SubResource("CanvasTexture_dmlxq")
+modulate_color = Color(0, 0, 0, 0.509804)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_w3fxn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1lgmf"]
+texture = SubResource("CanvasTexture_w3fxn")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+modulate_color = Color(0, 0.733333, 0.564706, 1)
+
+[node name="HealthBar" type="ProgressBar"]
+z_index = 5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 218.0
+offset_bottom = 18.0
+scale = Vector2(0.1, 0.1)
+theme_override_styles/background = SubResource("StyleBoxTexture_c74s4")
+theme_override_styles/fill = SubResource("StyleBoxTexture_1lgmf")
+step = 1.0
+value = 50.0
+show_percentage = false
+script = ExtResource("1_ilaqd")

@@ -1,50 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://b70yvtehk4jb4"]
+[gd_scene load_steps=13 format=3 uid="uid://b70yvtehk4jb4"]
 
 [ext_resource type="Texture2D" uid="uid://c0syo2tj20566" path="res://tilemaps/dungeon.png" id="1_fddyo"]
+[ext_resource type="Script" path="res://scripts/movement.gd" id="1_j3hwt"]
 [ext_resource type="Texture2D" uid="uid://bnbucbwyufr2q" path="res://tiles/viking_2.png" id="2_8xptw"]
-[ext_resource type="Script" path="res://characters/hero/health_bar.gd" id="2_tyqsn"]
+[ext_resource type="PackedScene" uid="uid://dlwr6fh761ep3" path="res://scenes/utils/healthbar.tscn" id="2_kfqqe"]
 [ext_resource type="Script" path="res://scripts/camera_limitter.gd" id="5_6i6pd"]
 [ext_resource type="Script" path="res://scripts/health.gd" id="5_spf4k"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="6_i5n4y"]
 [ext_resource type="Texture2D" uid="uid://decjqdrqkqmd8" path="res://tiles/viking.png" id="6_vpwu3"]
-
-[sub_resource type="GDScript" id="GDScript_uswn1"]
-script/source = "extends CharacterBody2D
-
-@export var SPEED = 50.0
-
-@onready var _animated_sprite = $AnimatedSprite2D
-
-
-func _physics_process(_delta):
-    var input_direction = Input.get_vector(\"left\", \"right\", \"up\", \"down\")
-    
-    if input_direction.x > 0 or input_direction.y > 0:
-        _animated_sprite.play(\"default\")
-
-    velocity = input_direction * SPEED
-    move_and_slide()
-
-
-func _on_health_damaged():
-    _animated_sprite.play(\"hurt\")
-"
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_dmlxq"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c74s4"]
-texture = SubResource("CanvasTexture_dmlxq")
-modulate_color = Color(0, 0, 0, 0.509804)
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_w3fxn"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1lgmf"]
-texture = SubResource("CanvasTexture_w3fxn")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
-modulate_color = Color(0, 0.733333, 0.564706, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uycce"]
 radius = 5.0
@@ -89,28 +52,13 @@ y_sort_enabled = true
 y_sort_enabled = true
 collision_layer = 3
 collision_mask = 3
-script = SubResource("GDScript_uswn1")
-SPEED = 100.0
-
-[node name="CameraLimitter" type="Node" parent="Body"]
-script = ExtResource("5_6i6pd")
+script = ExtResource("1_j3hwt")
+SPEED = 150.0
 
 [node name="Health" type="Node" parent="Body"]
 script = ExtResource("5_spf4k")
 
-[node name="ProgressBar" type="ProgressBar" parent="Body"]
-z_index = 5
-offset_left = -12.0
-offset_top = -12.0
-offset_right = 218.0
-offset_bottom = 18.0
-scale = Vector2(0.1, 0.1)
-theme_override_styles/background = SubResource("StyleBoxTexture_c74s4")
-theme_override_styles/fill = SubResource("StyleBoxTexture_1lgmf")
-step = 1.0
-value = 50.0
-show_percentage = false
-script = ExtResource("2_tyqsn")
+[node name="HealthBar" parent="Body" instance=ExtResource("2_kfqqe")]
 
 [node name="HurtBox" type="Area2D" parent="Body"]
 collision_layer = 0
@@ -135,6 +83,9 @@ zoom = Vector2(4, 4)
 limit_left = 0
 limit_top = 0
 
-[connection signal="change_health" from="Body/Health" to="Body/ProgressBar" method="_on_health_change_health"]
-[connection signal="change_max_health" from="Body/Health" to="Body/ProgressBar" method="_on_health_change_max_health"]
+[node name="CameraLimitter" type="Node" parent="Body"]
+script = ExtResource("5_6i6pd")
+
+[connection signal="change_health" from="Body/Health" to="Body/HealthBar" method="_on_health_change_health"]
+[connection signal="change_max_health" from="Body/Health" to="Body/HealthBar" method="_on_health_change_max_health"]
 [connection signal="damaged" from="Body/Health" to="Body" method="_on_health_damaged"]

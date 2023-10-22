@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bghsf5ink8x16"]
-
-[ext_resource type="Script" path="res://scripts/camera_limitter.gd" id="1_0i4mc"]
-
-[node name="CameraLimitter" type="Node"]
-script = ExtResource("1_0i4mc")
