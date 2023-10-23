@@ -31,7 +31,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -42,54 +42,66 @@ animations = [{
 }],
 "loop": true,
 "name": &"hurt",
-"speed": 5.0
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_vpwu3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_8xptw")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
 }]
 
 [node name="Player" type="Node2D"]
 y_sort_enabled = true
 
-[node name="Body" type="CharacterBody2D" parent="."]
-y_sort_enabled = true
-collision_layer = 3
-collision_mask = 3
+[node name="MovingCharacterBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_j3hwt")
-SPEED = 150.0
-DASH_MODIFIER = 10.0
 
-[node name="Health" type="Node" parent="Body"]
+[node name="Health" type="Node" parent="MovingCharacterBody2D"]
 script = ExtResource("5_spf4k")
 
-[node name="HealthBar" parent="Body" instance=ExtResource("2_kfqqe")]
+[node name="HealthBar" parent="MovingCharacterBody2D" instance=ExtResource("2_kfqqe")]
 
-[node name="HurtBox" type="Area2D" parent="Body"]
+[node name="HurtBox" type="Area2D" parent="MovingCharacterBody2D"]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("6_i5n4y")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/HurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingCharacterBody2D/HurtBox"]
 z_index = 1
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_uycce")
 debug_color = Color(0.819608, 0.333333, 0.6, 0.419608)
 
-[node name="Collider" type="CollisionShape2D" parent="Body"]
+[node name="Collider" type="CollisionShape2D" parent="MovingCharacterBody2D"]
 shape = SubResource("CircleShape2D_xfwbn")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Body"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MovingCharacterBody2D"]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_ok4gh")
+animation = &"idle"
+frame_progress = 0.388622
 
-[node name="Camera2D" type="Camera2D" parent="Body"]
+[node name="Camera2D" type="Camera2D" parent="MovingCharacterBody2D"]
 zoom = Vector2(4, 4)
 limit_left = 0
 limit_top = 0
 
-[node name="CameraLimitter" type="Node" parent="Body"]
+[node name="CameraLimitter" type="Node" parent="MovingCharacterBody2D"]
 script = ExtResource("5_6i6pd")
 
-[node name="Timer" type="Timer" parent="Body"]
+[node name="DashTimer" type="Timer" parent="MovingCharacterBody2D"]
+wait_time = 0.5
 one_shot = true
 
-[connection signal="change_health" from="Body/Health" to="Body/HealthBar" method="_on_health_change_health"]
-[connection signal="change_max_health" from="Body/Health" to="Body/HealthBar" method="_on_health_change_max_health"]
-[connection signal="damaged" from="Body/Health" to="Body" method="_on_health_damaged"]
+[node name="HurtTimer" type="Timer" parent="MovingCharacterBody2D"]
+one_shot = true
+
+[connection signal="change_health" from="MovingCharacterBody2D/Health" to="MovingCharacterBody2D/HealthBar" method="_on_health_change_health"]
+[connection signal="change_max_health" from="MovingCharacterBody2D/Health" to="MovingCharacterBody2D/HealthBar" method="_on_health_change_max_health"]
+[connection signal="damaged" from="MovingCharacterBody2D/Health" to="MovingCharacterBody2D" method="_on_health_damaged"]

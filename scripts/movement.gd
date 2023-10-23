@@ -1,31 +1,36 @@
+class_name MovingCharacterBody2D
 extends CharacterBody2D
 
-@export var SPEED = 50.0
-@export var DASH_MODIFIER: float = 1.5
+@export var SPEED = 150.0
+@export var DASH_MODIFIER: float = 10
 
 @onready var _animated_sprite = $AnimatedSprite2D
-@onready var _timer: Timer = $Timer
+@onready var _dash_timer: Timer = $DashTimer
+@onready var _hurt_timer: Timer = $HurtTimer
+
 
 func _physics_process(_delta):
     var input_direction = Input.get_vector("left", "right", "up", "down")
-    var is_dash = Input.is_action_just_pressed("dash")
     
-    if is_dash:
-        print("dashinggggggg")
-        print("timer stopped", _timer.is_stopped())
-    
-    if input_direction.x > 0 or input_direction.y > 0:
+    # Animation
+    if not _hurt_timer.is_stopped():
+        _animated_sprite.play("hurt")
+    elif input_direction:
         _animated_sprite.play("default")
+    else:
+        _animated_sprite.play("idle")
     
-    if _timer.is_stopped() and is_dash:
-        print("enters")
-        _timer.start()
+    # Dash
+    var is_dash = Input.is_action_just_pressed("dash")
+    if _dash_timer.is_stopped() and is_dash:
+        _dash_timer.start()
         velocity = input_direction * (SPEED * DASH_MODIFIER)
-        print(velocity)
+
+    # Regular movement
     else:
         velocity = input_direction * SPEED
-    
+
     move_and_slide()
 
 func _on_health_damaged():
-    _animated_sprite.play("hurt")
+    _hurt_timer.start()

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dlwr6fh761ep3"]
 
-[ext_resource type="Script" path="res://characters/hero/health_bar.gd" id="1_ilaqd"]
+[ext_resource type="Script" path="res://scripts/health_bar.gd" id="1_vhm74"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_dmlxq"]
 
@@ -30,4 +30,4 @@ theme_override_styles/fill = SubResource("StyleBoxTexture_1lgmf")
 step = 1.0
 value = 50.0
 show_percentage = false
-script = ExtResource("1_ilaqd")
+script = ExtResource("1_vhm74")

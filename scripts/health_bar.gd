@@ -1,4 +1,4 @@
-class_name HealthBar
+class_name ProgressHealthBar
 extends ProgressBar
 
 
