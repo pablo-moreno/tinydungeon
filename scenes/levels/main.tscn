@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://c0j3udqhp6ql4"]
+[gd_scene load_steps=10 format=3 uid="uid://c0j3udqhp6ql4"]
 
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="1_6ktie"]
 [ext_resource type="Texture2D" uid="uid://c0syo2tj20566" path="res://tilemaps/dungeon.png" id="2_jqemq"]
 [ext_resource type="PackedScene" uid="uid://b70yvtehk4jb4" path="res://scenes/characters/hero/Player.tscn" id="3_xqtms"]
+[ext_resource type="PackedScene" uid="uid://fjajq7h40klh" path="res://scenes/characters/enemies/Ghost.tscn" id="4_tujw0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nyth"]
-radius = 4.12311
+radius = 6.08276
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qvdtk"]
 texture = ExtResource("2_jqemq")
@@ -469,39 +470,49 @@ texture = ExtResource("2_jqemq")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_qvdtk")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_7c6yr"]
+resource_local_to_scene = true
+vertices = PackedVector2Array(328, 432, 358, 431, 346, 524, 332, 472, 318, 497, 68, 524, 121, 499, 92, 492, 66, 367, 92, 408, 101, 387, 186, 363, 213, 384, 502, 247, 496, 299, 460, 303, 458, 251, 494, 198, 453, 226, 386, 200, 390, 222, 353, 222, 355, 166, 375, 99, 385, 151, 338, 144, 300, 93, 138, 234, 133, 288, 45, 286, 40, 234, 66, 233, 106, 232, 79, 168, 106, 142, 76, 146, 111, 99, 28, 139, 32, 95, 188, 140, 200, 98, 262, 142, 248, 94, 235, 143, 190, 347, 238, 367)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2), PackedInt32Array(4, 2, 5, 6), PackedInt32Array(7, 6, 5), PackedInt32Array(7, 5, 8, 9), PackedInt32Array(10, 9, 8), PackedInt32Array(10, 8, 11, 12), PackedInt32Array(13, 14, 15, 16, 17), PackedInt32Array(17, 16, 18), PackedInt32Array(19, 17, 18, 20), PackedInt32Array(19, 20, 21, 22), PackedInt32Array(23, 24, 19, 22, 25, 26), PackedInt32Array(27, 28, 29, 30, 31, 32), PackedInt32Array(32, 31, 33, 34), PackedInt32Array(34, 33, 35, 36), PackedInt32Array(37, 38, 36, 35), PackedInt32Array(39, 34, 36, 40), PackedInt32Array(26, 25, 41, 42), PackedInt32Array(40, 42, 41, 43, 39), PackedInt32Array(44, 39, 43, 45, 12), PackedInt32Array(44, 12, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(200, 98, 248, 94, 300, 93, 375, 99, 385, 151, 386, 200, 494, 198, 502, 247, 496, 299, 460, 303, 458, 251, 453, 226, 390, 222, 353, 222, 355, 166, 338, 144, 262, 142, 235, 143, 238, 367, 213, 384, 101, 387, 92, 408, 92, 492, 121, 499, 318, 497, 332, 472, 328, 432, 358, 431, 346, 524, 68, 524, 66, 367, 186, 363, 190, 347, 188, 140, 106, 142, 106, 232, 138, 234, 133, 288, 45, 286, 40, 234, 66, 233, 79, 168, 76, 146, 28, 139, 32, 95, 111, 99)])
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bm5ac"]
+radius = 10.0499
+
 [node name="Dungeon" type="Node2D"]
 y_sort_enabled = true
 
-[node name="Trap 1" type="Area2D" parent="."]
+[node name="Traps" type="Node" parent="."]
+
+[node name="Trap 1" type="Area2D" parent="Traps"]
 z_index = 1
-position = Vector2(792, 236)
+position = Vector2(72, 168)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_6ktie")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Trap 1"]
-position = Vector2(-720, -68)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Traps/Trap 1"]
 shape = SubResource("CircleShape2D_2nyth")
 
-[node name="Trap 2" type="Area2D" parent="."]
+[node name="Trap 2" type="Area2D" parent="Traps"]
 z_index = 2
 position = Vector2(396, 118)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_6ktie")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Trap 2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Traps/Trap 2"]
 position = Vector2(-308, 50)
 shape = SubResource("CircleShape2D_2nyth")
 
-[node name="Trap 3" type="Area2D" parent="."]
+[node name="Trap 3" type="Area2D" parent="Traps"]
 z_index = 2
 position = Vector2(198, 59)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_6ktie")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Trap 3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Traps/Trap 3"]
 position = Vector2(-94, 109)
 shape = SubResource("CircleShape2D_2nyth")
 
@@ -522,4 +533,45 @@ layer_1/tile_data = PackedInt32Array(655376, 262144, 0, 655377, 131072, 2, 65537
 
 [node name="Player" parent="." instance=ExtResource("3_xqtms")]
 z_index = 1
-position = Vector2(474, 276)
+position = Vector2(113, 125)
+
+[node name="Ghost" parent="." instance=ExtResource("4_tujw0")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(72, 129)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(0, 4)
+navigation_polygon = SubResource("NavigationPolygon_7c6yr")
+
+[node name="WanderingPoints" type="Node" parent="."]
+
+[node name="TargetPosition1" type="Area2D" parent="WanderingPoints" groups=["wandering_points"]]
+position = Vector2(355, 129)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WanderingPoints/TargetPosition1"]
+light_mask = 0
+visibility_layer = 0
+position = Vector2(-2, 0)
+shape = SubResource("CircleShape2D_bm5ac")
+disabled = true
+
+[node name="TargetPosition2" type="Area2D" parent="WanderingPoints" groups=["wandering_points"]]
+position = Vector2(182, 125)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WanderingPoints/TargetPosition2"]
+light_mask = 0
+visibility_layer = 0
+position = Vector2(1, -1)
+shape = SubResource("CircleShape2D_bm5ac")
+disabled = true
+
+[node name="TargetPosition3" type="Area2D" parent="WanderingPoints" groups=["wandering_points"]]
+position = Vector2(210, 225)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WanderingPoints/TargetPosition3"]
+light_mask = 0
+visibility_layer = 0
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_bm5ac")
+disabled = true

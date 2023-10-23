@@ -58,7 +58,7 @@ dash={
 
 [layer_names]
 
-2d_physics/layer_2="hitboxes"
+2d_physics/layer_2="Hitboxes"
 
 [rendering]
 

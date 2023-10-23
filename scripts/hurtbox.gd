@@ -10,7 +10,11 @@ func _ready():
 
 
 func _on_area_entered(hitbox: HitBox):
-    if not hitbox:
+    # Check if the hitbox is a sibling
+    var is_sibling: bool = hitbox.get_parent() == get_parent()
+    
+    if not hitbox or is_sibling:
+        # Do nothing
         return
     
     var health: Health = owner.find_child("Health")
