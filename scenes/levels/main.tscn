@@ -552,17 +552,17 @@ position = Vector2(355, 129)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WanderingPoints/TargetPosition1"]
 light_mask = 0
 visibility_layer = 0
-position = Vector2(-2, 0)
+position = Vector2(-7, -3)
 shape = SubResource("CircleShape2D_bm5ac")
 disabled = true
 
 [node name="TargetPosition2" type="Area2D" parent="WanderingPoints" groups=["wandering_points"]]
-position = Vector2(182, 125)
+position = Vector2(49, 124)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WanderingPoints/TargetPosition2"]
 light_mask = 0
 visibility_layer = 0
-position = Vector2(1, -1)
+position = Vector2(-1, -1)
 shape = SubResource("CircleShape2D_bm5ac")
 disabled = true
 
@@ -572,6 +572,6 @@ position = Vector2(210, 225)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WanderingPoints/TargetPosition3"]
 light_mask = 0
 visibility_layer = 0
-position = Vector2(-1, 0)
+position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_bm5ac")
 disabled = true

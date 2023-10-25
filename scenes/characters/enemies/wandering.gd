@@ -1,14 +1,14 @@
 class_name WanderingBody2D
 extends CharacterBody2D
 
-var movement_speed: float = 75.0
+@export var movement_speed: float = 75.0
 
 var _target_points: Array[Node] = []
 
 @onready var _navigation_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var _waiting_timer: Timer = $WaitingTimer
 @onready var _animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var _hurt_timer: Timer = $WaitingTimer
+@onready var _waiting_timer: Timer = $WaitingTimer
+@onready var _hurt_timer: Timer = $HurtTimer
 
 
 func _ready():
@@ -66,3 +66,7 @@ func _on_health_death():
 func _on_health_damaged():
     _hurt_timer.start()
     _animated_sprite.play("hurt")
+
+
+func _on_hurt_box_hit():
+    global_position = _target_points.pick_random().global_position

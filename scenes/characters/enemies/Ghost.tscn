@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://fjajq7h40klh"]
+[gd_scene load_steps=12 format=3 uid="uid://fjajq7h40klh"]
 
 [ext_resource type="Script" path="res://scenes/characters/enemies/wandering.gd" id="1_orwgw"]
 [ext_resource type="Texture2D" uid="uid://wdr05fc4c87a" path="res://tiles/ghost.png" id="1_yh46k"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dlwr6fh761ep3" path="res://scenes/utils/HealthBar.tscn" id="3_r8yc8"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="4_wbxmc"]
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="6_rmxn7"]
+[ext_resource type="Script" path="res://scripts/respawner_handler.gd" id="7_umvto"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_aa6jp"]
 animations = [{
@@ -28,12 +29,13 @@ radius = 4.0
 radius = 6.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hka6q"]
-radius = 4.0
+radius = 6.0
 
 [node name="Ghost" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_orwgw")
+movement_speed = 50.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 texture_filter = 1
@@ -47,11 +49,6 @@ health = 50
 current_max_health = 50
 
 [node name="HealthBar" parent="CharacterBody2D" instance=ExtResource("3_r8yc8")]
-
-[node name="HurtTimer" type="Timer" parent="CharacterBody2D"]
-
-[node name="WaitingTimer" type="Timer" parent="CharacterBody2D"]
-one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CircleShape2D_rv76p")
@@ -75,6 +72,18 @@ debug_color = Color(0.780392, 0.368627, 0.6, 0.419608)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="CharacterBody2D"]
 
+[node name="HurtTimer" type="Timer" parent="CharacterBody2D"]
+one_shot = true
+
+[node name="WaitingTimer" type="Timer" parent="CharacterBody2D"]
+one_shot = true
+
+[node name="RespawnerHandler" type="Node" parent="CharacterBody2D"]
+script = ExtResource("7_umvto")
+node_group_name_to_respawn = "wandering_points"
+
 [connection signal="change_health" from="CharacterBody2D/Health" to="CharacterBody2D/HealthBar" method="_on_health_change_health"]
 [connection signal="damaged" from="CharacterBody2D/Health" to="CharacterBody2D" method="_on_health_damaged"]
 [connection signal="death" from="CharacterBody2D/Health" to="CharacterBody2D" method="_on_health_death"]
+[connection signal="hit" from="CharacterBody2D/HurtBox" to="CharacterBody2D" method="_on_hurt_box_hit"]
+[connection signal="hit" from="CharacterBody2D/HurtBox" to="CharacterBody2D/RespawnerHandler" method="_on_hurt_box_hit"]

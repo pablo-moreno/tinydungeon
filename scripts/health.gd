@@ -32,9 +32,6 @@ func take_damage(amount: int) -> void:
     if health == 0:
         print("You died :(")
         death.emit()
-    
-    print(owner.name, health)
-    
 
 
 func heal(amount: int) -> void:
