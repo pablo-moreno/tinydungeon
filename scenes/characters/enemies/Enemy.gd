@@ -8,6 +8,9 @@ extends CharacterBody2D
 @onready var wander_state: WanderState = $FiniteStateMachine/WanderState
 @onready var chase_state: ChaseState = $FiniteStateMachine/ChaseState
 @onready var ray_cast_2d = $RayCast2D
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var hurt_timer: Timer = $HurtTimer
+
 
 func _ready():
     wander_state.found_player.connect(fsm.change_state.bind(chase_state))
@@ -15,6 +18,9 @@ func _ready():
 
 
 func _physics_process(delta):
+    if hurt_timer.is_stopped():
+        animated_sprite.stop()
+    
     var angle = ray_cast_2d.get_angle_to(target.global_position)
     ray_cast_2d.rotate(angle)
     ray_cast_2d.look_at(target.global_position)
@@ -22,3 +28,8 @@ func _physics_process(delta):
 
 func _on_health_death():
     queue_free()
+
+
+func _on_health_damaged():
+    hurt_timer.start()
+    animated_sprite.play("hurt")

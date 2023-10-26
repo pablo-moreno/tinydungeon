@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://scenes/characters/enemies/Enemy.gd" id="1_x56fi"]
 [ext_resource type="PackedScene" uid="uid://dlwr6fh761ep3" path="res://scenes/utils/HealthBar.tscn" id="1_yhfo3"]
 [ext_resource type="Script" path="res://scripts/fsm.gd" id="2_wkdb3"]
-[ext_resource type="Script" path="res://scenes/characters/enemies/wander_state.gd" id="3_w73xe"]
-[ext_resource type="Script" path="res://scenes/characters/enemies/chase_state.gd" id="4_isdwe"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/states/wander_state.gd" id="4_nhymh"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/states/chase_state.gd" id="5_dslcl"]
 [ext_resource type="Texture2D" uid="uid://dmgs6offyruah" path="res://tiles/cyclops.png" id="5_f4c74"]
 [ext_resource type="Script" path="res://scripts/health.gd" id="6_docnq"]
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="8_5mn5n"]
@@ -22,7 +22,18 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_f4c74")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 8.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_02o7k"]
@@ -42,12 +53,12 @@ script = ExtResource("2_wkdb3")
 state = NodePath("WanderState")
 
 [node name="WanderState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("ray_cast", "navigation_agent")]
-script = ExtResource("3_w73xe")
+script = ExtResource("4_nhymh")
 ray_cast = NodePath("../../RayCast2D")
 navigation_agent = NodePath("../../NavigationAgent2D")
 
 [node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("ray_cast", "navigation_agent")]
-script = ExtResource("4_isdwe")
+script = ExtResource("5_dslcl")
 ray_cast = NodePath("../../RayCast2D")
 navigation_agent = NodePath("../../NavigationAgent2D")
 
@@ -57,9 +68,13 @@ shape = SubResource("CapsuleShape2D_bwoan")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_eo8ve")
+animation = &"hurt"
+frame_progress = 0.677814
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("6_docnq")
+health = 50
+current_max_health = 50
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(50, 0)
@@ -84,6 +99,10 @@ shape = SubResource("CircleShape2D_y0tpo")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
+[node name="HurtTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]
+[connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
 [connection signal="death" from="Health" to="." method="_on_health_death"]

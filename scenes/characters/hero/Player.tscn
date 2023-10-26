@@ -116,3 +116,4 @@ one_shot = true
 
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]
+[connection signal="damaged" from="Health" to="." method="_on_health_damaged"]

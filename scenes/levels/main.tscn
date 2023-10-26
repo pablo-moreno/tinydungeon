@@ -579,5 +579,7 @@ shape = SubResource("CircleShape2D_bm5ac")
 disabled = true
 
 [node name="Enemy" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_h5hss")]
+z_index = 1
+y_sort_enabled = true
 position = Vector2(251, 133)
 target = NodePath("../Player")
