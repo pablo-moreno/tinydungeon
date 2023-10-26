@@ -1,12 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://fjajq7h40klh"]
+[gd_scene load_steps=11 format=3 uid="uid://fjajq7h40klh"]
 
-[ext_resource type="Script" path="res://scenes/characters/enemies/wandering.gd" id="1_orwgw"]
 [ext_resource type="Texture2D" uid="uid://wdr05fc4c87a" path="res://tiles/ghost.png" id="1_yh46k"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/Ghost.gd" id="1_yuckj"]
 [ext_resource type="Script" path="res://scripts/health.gd" id="2_i24do"]
 [ext_resource type="PackedScene" uid="uid://dlwr6fh761ep3" path="res://scenes/utils/HealthBar.tscn" id="3_r8yc8"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="4_wbxmc"]
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="6_rmxn7"]
-[ext_resource type="Script" path="res://scripts/respawner_handler.gd" id="7_umvto"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_aa6jp"]
 animations = [{
@@ -34,7 +33,7 @@ radius = 6.0
 [node name="Ghost" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-script = ExtResource("1_orwgw")
+script = ExtResource("1_yuckj")
 movement_speed = 50.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
@@ -54,7 +53,7 @@ current_max_health = 50
 shape = SubResource("CircleShape2D_rv76p")
 
 [node name="HitBox" type="Area2D" parent="CharacterBody2D"]
-collision_layer = 2
+collision_layer = 4
 collision_mask = 0
 script = ExtResource("6_rmxn7")
 
@@ -78,12 +77,7 @@ one_shot = true
 [node name="WaitingTimer" type="Timer" parent="CharacterBody2D"]
 one_shot = true
 
-[node name="RespawnerHandler" type="Node" parent="CharacterBody2D"]
-script = ExtResource("7_umvto")
-node_group_name_to_respawn = "wandering_points"
-
 [connection signal="change_health" from="CharacterBody2D/Health" to="CharacterBody2D/HealthBar" method="_on_health_change_health"]
 [connection signal="damaged" from="CharacterBody2D/Health" to="CharacterBody2D" method="_on_health_damaged"]
 [connection signal="death" from="CharacterBody2D/Health" to="CharacterBody2D" method="_on_health_death"]
 [connection signal="hit" from="CharacterBody2D/HurtBox" to="CharacterBody2D" method="_on_hurt_box_hit"]
-[connection signal="hit" from="CharacterBody2D/HurtBox" to="CharacterBody2D/RespawnerHandler" method="_on_hurt_box_hit"]

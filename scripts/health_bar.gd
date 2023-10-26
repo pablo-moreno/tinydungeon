@@ -4,11 +4,11 @@ extends ProgressBar
 
 func _ready():
     var _health: Health = owner.find_child("Health")
-    
+
     if not _health:
         printerr("Health node not found")
         return
-        
+
     value = _health.health
     max_value = _health.current_max_health
 

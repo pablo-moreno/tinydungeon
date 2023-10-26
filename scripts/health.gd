@@ -47,7 +47,7 @@ func heal(amount: int) -> void:
     healed.emit()
 
 
-func increase_max_health(amount: int):
+func increase_max_health(amount: int) -> void:
     """
     Handles maximum health increment
     

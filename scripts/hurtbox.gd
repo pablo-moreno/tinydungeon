@@ -8,6 +8,7 @@ signal hit
 
 
 func _ready():
+    var _has_invulnerability_component = get_parent().find_child("InvulnerabilityHandler")
     self.connect("area_entered", _on_area_entered)
 
 

@@ -59,6 +59,10 @@ func _physics_process(_delta):
     move_and_slide()
 
 
+func respawn():
+    global_position = _target_points.pick_random().global_position
+
+
 func _on_health_death():
     queue_free()
 
@@ -69,4 +73,4 @@ func _on_health_damaged():
 
 
 func _on_hurt_box_hit():
-    global_position = _target_points.pick_random().global_position
+    respawn()

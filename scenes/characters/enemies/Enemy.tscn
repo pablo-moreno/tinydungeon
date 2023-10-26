@@ -1,0 +1,89 @@
+[gd_scene load_steps=14 format=3 uid="uid://rt7efydad4im"]
+
+[ext_resource type="Script" path="res://scenes/characters/enemies/Enemy.gd" id="1_x56fi"]
+[ext_resource type="PackedScene" uid="uid://dlwr6fh761ep3" path="res://scenes/utils/HealthBar.tscn" id="1_yhfo3"]
+[ext_resource type="Script" path="res://scripts/fsm.gd" id="2_wkdb3"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/wander_state.gd" id="3_w73xe"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/chase_state.gd" id="4_isdwe"]
+[ext_resource type="Texture2D" uid="uid://dmgs6offyruah" path="res://tiles/cyclops.png" id="5_f4c74"]
+[ext_resource type="Script" path="res://scripts/health.gd" id="6_docnq"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="8_5mn5n"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="9_u6q1j"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bwoan"]
+radius = 5.0
+height = 16.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eo8ve"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_f4c74")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_02o7k"]
+radius = 7.07107
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y0tpo"]
+radius = 7.0
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_x56fi")
+movement_speed = 90.0
+
+[node name="HealthBar" parent="." instance=ExtResource("1_yhfo3")]
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
+script = ExtResource("2_wkdb3")
+state = NodePath("WanderState")
+
+[node name="WanderState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("ray_cast", "navigation_agent")]
+script = ExtResource("3_w73xe")
+ray_cast = NodePath("../../RayCast2D")
+navigation_agent = NodePath("../../NavigationAgent2D")
+
+[node name="ChaseState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("ray_cast", "navigation_agent")]
+script = ExtResource("4_isdwe")
+ray_cast = NodePath("../../RayCast2D")
+navigation_agent = NodePath("../../NavigationAgent2D")
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_bwoan")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_eo8ve")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("6_docnq")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(50, 0)
+collision_mask = 8
+collide_with_areas = true
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("8_5mn5n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_02o7k")
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("9_u6q1j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("CircleShape2D_y0tpo")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
+[connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]
+[connection signal="death" from="Health" to="." method="_on_health_death"]

@@ -22,8 +22,10 @@ func _physics_process(_delta):
     
     # Dash
     var is_dash = Input.is_action_just_pressed("dash")
+    
     if _dash_timer.is_stopped() and is_dash:
         _dash_timer.start()
+        
         velocity = input_direction * (SPEED * DASH_MODIFIER)
 
     # Regular movement
