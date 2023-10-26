@@ -3,15 +3,14 @@ extends EnemyState
 
 @export var ray_cast: RayCast2D
 
-
 signal found_player
+
 
 func _ready() -> void:
     set_physics_process(false)
     super._ready()
 
 func _enter_state() -> void:
-    print("Wandering")
     set_physics_process(true)
 
 func _exit_state() -> void:
@@ -24,5 +23,3 @@ func _physics_process(_delta) -> void:
     if ray_cast.is_colliding():
         found_player.emit()
         return
-
-    var actor = _get_actor()

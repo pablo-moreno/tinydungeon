@@ -11,7 +11,6 @@ func _ready() -> void:
 
 
 func _enter_state() -> void:
-    print("Chasing")
     set_physics_process(true)
 
 
@@ -23,6 +22,6 @@ func _physics_process(_delta) -> void:
     if not ray_cast.is_colliding():
         lost_player.emit()
         return
-    
+
     var player = _get_player()
     _move_to(player.global_position)

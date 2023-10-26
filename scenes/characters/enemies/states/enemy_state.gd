@@ -3,13 +3,17 @@ extends State
 
 @export var navigation_agent: NavigationAgent2D
 @export var waiting_timer: Timer
+@export var navigation_threshold: float = 16
+
+signal navigation_ended
 
 
 func _ready():
-    navigation_agent.path_desired_distance = 4.0
-    navigation_agent.target_desired_distance = 4.0
-    
-    call_deferred("actor_setup")
+    if navigation_agent:
+        navigation_agent.path_desired_distance = navigation_threshold
+        navigation_agent.target_desired_distance = navigation_threshold
+        
+        call_deferred("actor_setup")
 
 
 func actor_setup():
@@ -20,12 +24,15 @@ func actor_setup():
 func set_movement_target(target_position: Vector2):
     navigation_agent.target_position = target_position
 
+func _navigation_ended():
+    navigation_ended.emit()
+
 
 func _move_to(target_position: Vector2):
     navigation_agent.target_position = target_position
     
     if navigation_agent.is_navigation_finished():
-        set_movement_target(target_position)
+        _navigation_ended()
         return
     
     var actor: Enemy = _get_actor()
