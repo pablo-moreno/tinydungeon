@@ -15,6 +15,13 @@ func _ready():
         
         call_deferred("actor_setup")
 
+func _enter_state() -> void:
+    set_physics_process(true)
+
+
+func _exit_state() -> void:
+    set_physics_process(false)
+
 
 func actor_setup():
     # Wait for the first physics frame so the NavigationServer can sync.
@@ -28,8 +35,9 @@ func _navigation_ended():
     navigation_ended.emit()
 
 
-func _move_to(target_position: Vector2):
-    navigation_agent.target_position = target_position
+func _move_to(target_position: Vector2, speed_modifier: float = 1.0):
+    if target_position != Vector2.ZERO:
+        navigation_agent.target_position = target_position
     
     if navigation_agent.is_navigation_finished():
         _navigation_ended()
@@ -41,7 +49,7 @@ func _move_to(target_position: Vector2):
     var next_path_position: Vector2 = navigation_agent.get_next_path_position()
     
     var new_velocity: Vector2 = (next_path_position - current_agent_position).normalized()
-    actor.velocity = new_velocity * actor.movement_speed
+    actor.velocity = new_velocity * actor.movement_speed * speed_modifier
     
     actor.move_and_slide()
 

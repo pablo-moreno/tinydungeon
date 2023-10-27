@@ -32,8 +32,6 @@ func _physics_process(_delta):
     if hurt_timer.is_stopped():
         animated_sprite.stop()
     
-    var angle = ray_cast_2d.get_angle_to(target.global_position)
-    ray_cast_2d.rotate(angle)
     ray_cast_2d.look_at(target.global_position)
 
 
