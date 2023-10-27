@@ -11,7 +11,7 @@ extends CharacterBody2D
 
 @onready var ray_cast_2d = $RayCast2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var hurt_timer: Timer = $HurtTimer
+@onready var hurt_timer: Timer = $Timers/HurtTimer
 
 
 func _setup_fsm():

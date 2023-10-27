@@ -31,6 +31,7 @@ func actor_setup():
 func set_movement_target(target_position: Vector2):
     navigation_agent.target_position = target_position
 
+
 func _navigation_ended():
     navigation_ended.emit()
 

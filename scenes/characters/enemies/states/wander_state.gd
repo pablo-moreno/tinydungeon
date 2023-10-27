@@ -10,6 +10,7 @@ func _ready() -> void:
     set_physics_process(false)
     super._ready()
 
+
 func _navigation_ended():
     var random_point = _get_wandering_points().pick_random().global_position
     set_movement_target(random_point)
@@ -18,6 +19,7 @@ func _navigation_ended():
 
 func _get_wandering_points() -> Array[Node]:
     return get_tree().get_nodes_in_group("wandering_points")
+
 
 func _physics_process(_delta) -> void:    
     if ray_cast.is_colliding():

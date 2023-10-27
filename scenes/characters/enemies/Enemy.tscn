@@ -65,7 +65,7 @@ navigation_agent = NodePath("../../NavigationAgent2D")
 
 [node name="AttackState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("cooldown_timer")]
 script = ExtResource("6_y4ph7")
-cooldown_timer = NodePath("../../CooldownTimer")
+cooldown_timer = NodePath("../../Timers/CooldownTimer")
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_bwoan")
@@ -102,10 +102,12 @@ shape = SubResource("CircleShape2D_y0tpo")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[node name="HurtTimer" type="Timer" parent="."]
+[node name="Timers" type="Node" parent="."]
+
+[node name="HurtTimer" type="Timer" parent="Timers"]
 one_shot = true
 
-[node name="CooldownTimer" type="Timer" parent="."]
+[node name="CooldownTimer" type="Timer" parent="Timers"]
 one_shot = true
 
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]

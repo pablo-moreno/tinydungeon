@@ -10,8 +10,6 @@ func _ready() -> void:
     set_physics_process(false)
 
 
-
-
 func _physics_process(_delta) -> void:
     if not ray_cast.is_colliding():
         lost_player.emit()
