@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://rt7efydad4im"]
+[gd_scene load_steps=17 format=3 uid="uid://rt7efydad4im"]
 
 [ext_resource type="Script" path="res://scenes/characters/enemies/Enemy.gd" id="1_x56fi"]
 [ext_resource type="PackedScene" uid="uid://dlwr6fh761ep3" path="res://scenes/utils/HealthBar.tscn" id="1_yhfo3"]
@@ -8,8 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://dmgs6offyruah" path="res://tiles/cyclops.png" id="5_f4c74"]
 [ext_resource type="Script" path="res://scripts/health.gd" id="6_docnq"]
 [ext_resource type="Script" path="res://scenes/characters/enemies/states/attack_state.gd" id="6_y4ph7"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/states/idle_state.gd" id="7_5psqs"]
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="8_5mn5n"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="9_u6q1j"]
+[ext_resource type="Script" path="res://scripts/knockback_handler.gd" id="11_pdb3r"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bwoan"]
 radius = 5.0
@@ -45,7 +47,7 @@ radius = 7.0
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_x56fi")
-movement_speed = 90.0
+movement_speed = 75.0
 
 [node name="HealthBar" parent="." instance=ExtResource("1_yhfo3")]
 
@@ -67,6 +69,10 @@ navigation_agent = NodePath("../../NavigationAgent2D")
 script = ExtResource("6_y4ph7")
 cooldown_timer = NodePath("../../Timers/CooldownTimer")
 
+[node name="IdleState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("idle_timer")]
+script = ExtResource("7_5psqs")
+idle_timer = NodePath("../../Timers/IdleTimer")
+
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_bwoan")
 
@@ -74,10 +80,11 @@ shape = SubResource("CapsuleShape2D_bwoan")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_eo8ve")
 
-[node name="Health" type="Node" parent="."]
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("invulnerability_timer")]
 script = ExtResource("6_docnq")
 health = 50
 current_max_health = 50
+invulnerability_timer = NodePath("../Timers/HurtTimer")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(50, 0)
@@ -94,13 +101,16 @@ shape = SubResource("CircleShape2D_02o7k")
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 10
 script = ExtResource("9_u6q1j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("CircleShape2D_y0tpo")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+radius = 50.0
+debug_enabled = true
 
 [node name="Timers" type="Node" parent="."]
 
@@ -110,7 +120,14 @@ one_shot = true
 [node name="CooldownTimer" type="Timer" parent="Timers"]
 one_shot = true
 
+[node name="IdleTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="KnockbackHandler" type="Node" parent="."]
+script = ExtResource("11_pdb3r")
+
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]
 [connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
 [connection signal="death" from="Health" to="." method="_on_health_death"]
+[connection signal="knockback_received" from="HurtBox" to="KnockbackHandler" method="_on_hurt_box_knockback_received"]

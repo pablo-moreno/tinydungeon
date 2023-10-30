@@ -62,7 +62,7 @@ shape = SubResource("CircleShape2D_tmlut")
 
 [node name="HurtBox" type="Area2D" parent="CharacterBody2D"]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 10
 script = ExtResource("4_wbxmc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/HurtBox"]
@@ -70,6 +70,10 @@ shape = SubResource("CircleShape2D_hka6q")
 debug_color = Color(0.780392, 0.368627, 0.6, 0.419608)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="CharacterBody2D"]
+avoidance_enabled = true
+radius = 50.0
+time_horizon_agents = 3.0
+debug_enabled = true
 
 [node name="HurtTimer" type="Timer" parent="CharacterBody2D"]
 one_shot = true

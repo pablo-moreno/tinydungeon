@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var wander_state: WanderState = $FiniteStateMachine/WanderState
 @onready var chase_state: ChaseState = $FiniteStateMachine/ChaseState
 @onready var attack_state: AttackState = $FiniteStateMachine/AttackState
+@onready var idle_state: IdleState = $FiniteStateMachine/IdleState
 
 @onready var ray_cast_2d = $RayCast2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -17,9 +18,11 @@ extends CharacterBody2D
 func _setup_fsm():
     """
     FiniteStateMachine flow:
-    Wander -> Chase -> Attack -> Chase
+    Wander -> Idle -> Wander -> Chase -> Attack -> Chase
     """
     wander_state.found_player.connect(fsm.change_state.bind(chase_state))
+    wander_state.navigation_ended.connect(fsm.change_state.bind(idle_state))
+    idle_state.end_idle.connect(fsm.change_state.bind(wander_state))
     chase_state.lost_player.connect(fsm.change_state.bind(wander_state))
     chase_state.navigation_ended.connect(fsm.change_state.bind(attack_state))
     attack_state.attack.connect(fsm.change_state.bind(chase_state))

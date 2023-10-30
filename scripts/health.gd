@@ -7,6 +7,7 @@ extends Node
 # Properties variables
 @export var health = 100
 @export var current_max_health = 100
+@export var invulnerability_timer: Timer = null
 
 # Signals
 signal death
@@ -14,6 +15,10 @@ signal change_health(new_health: int)
 signal change_max_health(new_max_health: int)
 signal damaged
 signal healed
+
+func _ready():
+    if invulnerability_timer != null:
+        invulnerability_timer.one_shot = true
 
 
 func take_damage(amount: int) -> void:
@@ -25,6 +30,12 @@ func take_damage(amount: int) -> void:
         - damaged
         - death
     """
+    if invulnerability_timer and not invulnerability_timer.is_stopped():
+        return
+        
+    
+    Input.vibrate_handheld(500)
+    
     health = max(health - amount, 0)
     change_health.emit(health)
     damaged.emit()
@@ -32,6 +43,10 @@ func take_damage(amount: int) -> void:
     if health == 0:
         print("You died :(")
         death.emit()
+    
+    if invulnerability_timer:
+        print("start invulnerability")
+        invulnerability_timer.start()
 
 
 func heal(amount: int) -> void:

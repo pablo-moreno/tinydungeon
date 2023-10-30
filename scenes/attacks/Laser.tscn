@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://8j1vs8p07twr"]
+
+[ext_resource type="Script" path="res://scenes/attacks/Laser.gd" id="1_u477q"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_unif5"]
+emission_shape = 4
+emission_point_count = 1
+particle_flag_disable_z = true
+spread = 3.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 256.0
+initial_velocity_max = 256.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+
+[node name="Laser" type="RayCast2D"]
+target_position = Vector2(73, 0)
+script = ExtResource("1_u477q")
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(-1.01408, -3.94893)
+scale = Vector2(0.492958, 0.563492)
+points = PackedVector2Array(0, 6.78261, 67, 6.78261)
+width = 2.0
+default_color = Color(0.67451, 1, 1, 0)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Line2D"]
+position = Vector2(0, 6.38357)
+scale = Vector2(1, 1.27671)
+process_material = SubResource("ParticleProcessMaterial_unif5")
+lifetime = 10.0
+trail_enabled = true

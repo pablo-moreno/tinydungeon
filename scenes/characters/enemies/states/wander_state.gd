@@ -5,7 +5,6 @@ extends EnemyState
 
 signal found_player
 
-
 func _ready() -> void:
     set_physics_process(false)
     super._ready()

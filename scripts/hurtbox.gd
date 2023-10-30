@@ -5,10 +5,10 @@ class_name HurtBox
 extends Area2D
 
 signal hit
+signal knockback_received(direction: Vector2, amount: float)
 
 
 func _ready():
-    var _has_invulnerability_component = get_parent().find_child("InvulnerabilityHandler")
     self.connect("area_entered", _on_area_entered)
 
 
@@ -22,6 +22,9 @@ func _on_area_entered(hitbox: HitBox):
         return
 
     var health: Health = owner.find_child("Health")
+    
+    var knockback_direction = self.global_position.direction_to(hitbox.global_position)
+    knockback_received.emit(knockback_direction, hitbox.knockback)
 
     if health == null:
         printerr("Health node not found")

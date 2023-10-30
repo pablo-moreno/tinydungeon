@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://c0j3udqhp6ql4"]
+[gd_scene load_steps=10 format=3 uid="uid://c0j3udqhp6ql4"]
 
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="1_6ktie"]
 [ext_resource type="Texture2D" uid="uid://c0syo2tj20566" path="res://tilemaps/dungeon.png" id="2_jqemq"]
 [ext_resource type="PackedScene" uid="uid://b70yvtehk4jb4" path="res://scenes/characters/hero/Player.tscn" id="3_xqtms"]
-[ext_resource type="PackedScene" uid="uid://fjajq7h40klh" path="res://scenes/characters/enemies/Ghost.tscn" id="4_tujw0"]
 [ext_resource type="PackedScene" uid="uid://rt7efydad4im" path="res://scenes/characters/enemies/Enemy.tscn" id="5_h5hss"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nyth"]
@@ -536,13 +535,7 @@ layer_1/tile_data = PackedInt32Array(655376, 262144, 0, 655377, 131072, 2, 65537
 z_index = 1
 position = Vector2(376, 179)
 
-[node name="Ghost" parent="." instance=ExtResource("4_tujw0")]
-z_index = 1
-y_sort_enabled = true
-position = Vector2(72, 129)
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-visible = false
 position = Vector2(0, 4)
 navigation_polygon = SubResource("NavigationPolygon_7c6yr")
 
@@ -582,4 +575,12 @@ disabled = true
 z_index = 1
 y_sort_enabled = true
 position = Vector2(251, 133)
+target = NodePath("../Player")
+
+[node name="Enemy2" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_h5hss")]
+position = Vector2(50, 107)
+target = NodePath("../Player")
+
+[node name="Enemy3" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_h5hss")]
+position = Vector2(214, 273)
 target = NodePath("../Player")

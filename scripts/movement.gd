@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var _animated_sprite = $AnimatedSprite2D
 @onready var _dash_timer: Timer = $DashTimer
 @onready var _hurt_timer: Timer = $HurtTimer
+@onready var _invulnerability_timer: Timer = $InvulnerabilityTimer
 
 
 func _physics_process(_delta):
@@ -22,8 +23,10 @@ func _physics_process(_delta):
     
     # Dash
     var is_dash = Input.is_action_just_pressed("dash")
+    var _is_attack = Input.is_action_just_pressed("attack")
     
     if _dash_timer.is_stopped() and is_dash:
+        _invulnerability_timer.start()
         _dash_timer.start()
         
         velocity = input_direction * (SPEED * DASH_MODIFIER)
