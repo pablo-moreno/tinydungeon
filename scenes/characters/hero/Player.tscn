@@ -333,6 +333,7 @@ modulate = Color(1, 1, 1, 0)
 texture_filter = 1
 position = Vector2(0, 16)
 rotation = 0.785398
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("16_d3hjj")
 
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
