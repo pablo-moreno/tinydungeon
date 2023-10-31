@@ -13,7 +13,7 @@ extends Node
 signal death
 signal change_health(new_health: int)
 signal change_max_health(new_max_health: int)
-signal damaged
+signal damaged(amount: int)
 signal healed
 
 func _ready():
@@ -32,20 +32,15 @@ func take_damage(amount: int) -> void:
     """
     if invulnerability_timer and not invulnerability_timer.is_stopped():
         return
-        
-    
-    Input.vibrate_handheld(500)
     
     health = max(health - amount, 0)
     change_health.emit(health)
-    damaged.emit()
+    damaged.emit(amount)
 
     if health == 0:
-        print("You died :(")
         death.emit()
     
     if invulnerability_timer:
-        print("start invulnerability")
         invulnerability_timer.start()
 
 

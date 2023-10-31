@@ -12,6 +12,12 @@ var _current_rotation_from_enum = DIRECTION.UP
 
 
 @onready var _animation_player = $AnimationPlayer
+@onready var _hitbox: HitBox = $Sprite2D/HitBox
+
+@export var knockback: float = 5
+
+func _ready():
+    _hitbox.knockback = knockback
 
 
 func _rotate_sword(input_direction: Vector2):

@@ -13,6 +13,7 @@ extends CharacterBody2D
 @onready var ray_cast_2d = $RayCast2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hurt_timer: Timer = $Timers/HurtTimer
+@onready var spawner = $BulletSpawner
 
 
 func _setup_fsm():
@@ -20,15 +21,15 @@ func _setup_fsm():
     FiniteStateMachine flow:
     Wander -> Idle -> Wander -> Chase -> Attack -> Chase
     """
+    fsm.state = wander_state
     wander_state.found_player.connect(fsm.change_state.bind(chase_state))
     wander_state.navigation_ended.connect(fsm.change_state.bind(idle_state))
     idle_state.end_idle.connect(fsm.change_state.bind(wander_state))
     chase_state.lost_player.connect(fsm.change_state.bind(wander_state))
-    chase_state.navigation_ended.connect(fsm.change_state.bind(attack_state))
-    attack_state.attack.connect(fsm.change_state.bind(chase_state))
 
 func _ready():
     _setup_fsm()
+    
 
 
 func _physics_process(_delta):
@@ -42,6 +43,5 @@ func _on_health_death():
     queue_free()
 
 
-func _on_health_damaged():
+func _on_health_damaged(_amount: int):
     hurt_timer.start()
-    animated_sprite.play("hurt")

@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://cq06sc16rnqux"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_aedne"]
+[ext_resource type="Texture2D" uid="uid://i1s71hkhb2si" path="res://tiles/bullet_01.png" id="2_q5l0x"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="3_j62dx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_upsfi"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eucww"]
+radius = 4.12311
+
+[node name="Bullet" type="Area2D"]
+script = ExtResource("1_aedne")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+texture_filter = 1
+texture = ExtResource("2_q5l0x")
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_upsfi")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource("3_j62dx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_eucww")
+debug_color = Color(0.647059, 0.45098, 0.686275, 0.419608)
+
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

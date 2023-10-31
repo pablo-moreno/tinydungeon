@@ -24,10 +24,11 @@ func _on_area_entered(hitbox: HitBox):
     var health: Health = owner.find_child("Health")
     
     var knockback_direction = self.global_position.direction_to(hitbox.global_position)
-    knockback_received.emit(knockback_direction, hitbox.knockback)
 
     if health == null:
         printerr("Health node not found")
         return
 
     health.take_damage(hitbox.damage)
+    
+    knockback_received.emit(knockback_direction, hitbox.knockback)

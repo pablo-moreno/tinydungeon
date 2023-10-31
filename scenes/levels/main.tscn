@@ -576,11 +576,3 @@ z_index = 1
 y_sort_enabled = true
 position = Vector2(251, 133)
 target = NodePath("../Player")
-
-[node name="Enemy2" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_h5hss")]
-position = Vector2(50, 107)
-target = NodePath("../Player")
-
-[node name="Enemy3" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_h5hss")]
-position = Vector2(214, 273)
-target = NodePath("../Player")

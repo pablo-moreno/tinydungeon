@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://rt7efydad4im"]
+[gd_scene load_steps=18 format=3 uid="uid://rt7efydad4im"]
 
 [ext_resource type="Script" path="res://scenes/characters/enemies/Enemy.gd" id="1_x56fi"]
 [ext_resource type="PackedScene" uid="uid://dlwr6fh761ep3" path="res://scenes/utils/HealthBar.tscn" id="1_yhfo3"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="8_5mn5n"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="9_u6q1j"]
 [ext_resource type="Script" path="res://scripts/knockback_handler.gd" id="11_pdb3r"]
+[ext_resource type="Script" path="res://scripts/bullet_spawner.gd" id="13_eyeg0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bwoan"]
 radius = 5.0
@@ -125,6 +126,10 @@ one_shot = true
 
 [node name="KnockbackHandler" type="Node" parent="."]
 script = ExtResource("11_pdb3r")
+
+[node name="BulletSpawner" type="Node2D" parent="." node_paths=PackedStringArray("bullet_timer")]
+script = ExtResource("13_eyeg0")
+bullet_timer = NodePath("../Timers/CooldownTimer")
 
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]
