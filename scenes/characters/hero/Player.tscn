@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b70yvtehk4jb4"]
+[gd_scene load_steps=27 format=3 uid="uid://di60ig136xp53"]
 
 [ext_resource type="Texture2D" uid="uid://c0syo2tj20566" path="res://tilemaps/dungeon.png" id="1_fddyo"]
 [ext_resource type="Script" path="res://scripts/movement.gd" id="1_j3hwt"]
@@ -14,15 +14,14 @@
 [ext_resource type="PackedScene" uid="uid://b0o4tdttcglg5" path="res://scenes/utils/TimerLabel.tscn" id="13_avs31"]
 [ext_resource type="Script" path="res://scripts/bullet_spawner.gd" id="13_p3mhh"]
 [ext_resource type="Script" path="res://scenes/characters/hero/shoot_attack.gd" id="14_4yhcf"]
+[ext_resource type="Texture2D" uid="uid://xxomvkt8cilk" path="res://tiles/flame_01.png" id="14_oqdjk"]
+[ext_resource type="Texture2D" uid="uid://b3w5503d1xfre" path="res://tiles/dash.png" id="16_d3hjj"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uycce"]
 radius = 6.0
 height = 12.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i736f"]
-radius = 6.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_xfwbn"]
 radius = 6.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vldx1"]
@@ -65,6 +64,177 @@ animations = [{
 "speed": 4.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_xfwbn"]
+radius = 6.0
+
+[sub_resource type="Animation" id="Animation_u5oe7"]
+resource_name = "dash_down"
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DashSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DashSprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -16)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DashSprite:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.785398]
+}
+
+[sub_resource type="Animation" id="Animation_bgj7u"]
+resource_name = "dash_left"
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DashSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DashSprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(16, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DashSprite:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.35619]
+}
+
+[sub_resource type="Animation" id="Animation_trqtp"]
+resource_name = "dash_right"
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DashSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DashSprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-16, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DashSprite:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.35619]
+}
+
+[sub_resource type="Animation" id="Animation_cbrsy"]
+resource_name = "dash_up"
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DashSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DashSprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 16)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DashSprite:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.785398]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lde14"]
+_data = {
+"dash_down": SubResource("Animation_u5oe7"),
+"dash_left": SubResource("Animation_bgj7u"),
+"dash_right": SubResource("Animation_trqtp"),
+"dash_up": SubResource("Animation_cbrsy")
+}
+
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
 collision_layer = 9
@@ -96,11 +266,9 @@ script = ExtResource("9_adica")
 shape = SubResource("CircleShape2D_i736f")
 debug_color = Color(0, 0.819608, 0.313726, 0.419608)
 
-[node name="Collider" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_xfwbn")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_ok4gh")
 animation = &"idle"
 frame_progress = 0.388622
@@ -143,13 +311,29 @@ offset_bottom = 2.0
 [node name="BulletSpawner" type="Node2D" parent="."]
 script = ExtResource("13_p3mhh")
 target_collision_mask = 9
-target_collision_layer = 9
-shoot_speed = 150.0
+target_collision_layer = 1
+shoot_speed = 200.0
+bullet_texture = ExtResource("14_oqdjk")
 
 [node name="ShootAttack" type="Node" parent="." node_paths=PackedStringArray("bullet_spawner", "timer")]
 script = ExtResource("14_4yhcf")
 bullet_spawner = NodePath("../BulletSpawner")
 timer = NodePath("../Timers/CooldownTimer")
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xfwbn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lde14")
+}
+
+[node name="DashSprite" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+texture_filter = 1
+position = Vector2(0, 16)
+rotation = 0.785398
+texture = ExtResource("16_d3hjj")
 
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]

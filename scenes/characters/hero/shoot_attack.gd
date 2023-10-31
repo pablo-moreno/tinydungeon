@@ -5,6 +5,18 @@ extends Node
 @export var timer: Timer = null
 
 
+func _get_input_angle_to():
+    """
+        Returns the angle of the joystick direction
+    """
+    var direction = Vector2(
+        Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), 
+        Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+    )
+    
+    return direction.angle()
+
+
 func _handle_shooting():
     if not timer.is_stopped():
         return
@@ -13,11 +25,11 @@ func _handle_shooting():
     if shooting_direction == Vector2.ZERO:
         return
     
-    var angle = get_parent().global_position.normalized().angle_to(shooting_direction)
+    var angle = _get_input_angle_to()
+    
     bullet_spawner.shoot(angle)
     timer.start()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
     _handle_shooting()

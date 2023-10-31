@@ -17,13 +17,11 @@ func _enter_state():
     super._enter_state()
     
     if idle_timer.is_stopped():
-        print("start idle")
         is_idle = true
         idle_timer.start()
 
     
 func _physics_process(_delta):
     if idle_timer.is_stopped() and is_idle:
-        print("end idle")
         is_idle = false
         end_idle.emit()

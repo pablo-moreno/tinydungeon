@@ -10,6 +10,5 @@ func _enter_state():
     super._enter_state()
     
     if cooldown_timer.is_stopped():
-        print('he attacks')
         attack.emit()
         cooldown_timer.start()

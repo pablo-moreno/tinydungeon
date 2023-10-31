@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://rt7efydad4im"]
+[gd_scene load_steps=21 format=3 uid="uid://cv54oxdfq8n0"]
 
 [ext_resource type="Script" path="res://scenes/characters/enemies/Enemy.gd" id="1_x56fi"]
 [ext_resource type="PackedScene" uid="uid://dlwr6fh761ep3" path="res://scenes/utils/HealthBar.tscn" id="1_yhfo3"]
@@ -13,7 +13,9 @@
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="9_u6q1j"]
 [ext_resource type="Script" path="res://scripts/knockback_handler.gd" id="11_pdb3r"]
 [ext_resource type="Script" path="res://scripts/bullet_spawner.gd" id="13_eyeg0"]
-[ext_resource type="Script" path="res://scripts/enemy_shooting_attack.gd" id="14_5qyb1"]
+[ext_resource type="Script" path="res://scripts/enemy_axis_shooting_attack.gd" id="14_piar3"]
+[ext_resource type="PackedScene" uid="uid://b0o4tdttcglg5" path="res://scenes/utils/TimerLabel.tscn" id="15_r0tfu"]
+[ext_resource type="Script" path="res://scripts/enemy_bullet_hell.gd" id="16_egxbw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bwoan"]
 radius = 5.0
@@ -132,13 +134,26 @@ script = ExtResource("11_pdb3r")
 [node name="BulletSpawner" type="Node2D" parent="."]
 script = ExtResource("13_eyeg0")
 
-[node name="Attack" type="Node" parent="." node_paths=PackedStringArray("spawner", "bullet_timer")]
-script = ExtResource("14_5qyb1")
+[node name="AxisShootingAttack" type="Node2D" parent="." node_paths=PackedStringArray("spawner", "bullet_timer")]
+script = ExtResource("14_piar3")
+spawner = NodePath("../BulletSpawner")
+bullet_timer = NodePath("../Timers/CooldownTimer")
+enabled = false
+
+[node name="TimerLabel" parent="." instance=ExtResource("15_r0tfu")]
+offset_left = -5.0
+offset_top = -23.0
+offset_right = 12.0
+offset_bottom = 3.0
+
+[node name="EnemyBulletHellAttack" type="Node2D" parent="." node_paths=PackedStringArray("spawner", "bullet_timer")]
+script = ExtResource("16_egxbw")
 spawner = NodePath("../BulletSpawner")
 bullet_timer = NodePath("../Timers/CooldownTimer")
 
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]
 [connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
+[connection signal="damaged" from="Health" to="TimerLabel" method="_on_health_damaged"]
 [connection signal="death" from="Health" to="." method="_on_health_death"]
 [connection signal="knockback_received" from="HurtBox" to="KnockbackHandler" method="_on_hurt_box_knockback_received"]
