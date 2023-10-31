@@ -7,7 +7,6 @@ extends CharacterBody2D
 @onready var fsm: FiniteStateMachine = $FiniteStateMachine
 @onready var wander_state: WanderState = $FiniteStateMachine/WanderState
 @onready var chase_state: ChaseState = $FiniteStateMachine/ChaseState
-@onready var attack_state: AttackState = $FiniteStateMachine/AttackState
 @onready var idle_state: IdleState = $FiniteStateMachine/IdleState
 
 @onready var ray_cast_2d = $RayCast2D
@@ -23,6 +22,7 @@ func _setup_fsm():
     fsm.state = wander_state
     wander_state.found_player.connect(fsm.change_state.bind(chase_state))
     wander_state.navigation_ended.connect(fsm.change_state.bind(idle_state))
+    wander_state.is_attacked.connect(fsm.change_state.bind(chase_state))
     idle_state.end_idle.connect(fsm.change_state.bind(wander_state))
     chase_state.lost_player.connect(fsm.change_state.bind(idle_state))
 

@@ -4,6 +4,7 @@ extends Node2D
 @export var spawner: BulletSpawner = null
 @export var bullet_timer: Timer = null
 @export var enabled: bool = true
+@export var cooldown: float = 0.5
 @export var wave_timer: Timer = null
 @export var wait_timer: Timer = null
 
@@ -13,24 +14,29 @@ enum ORIENTATION {
 }
 
 var current_orientation = ORIENTATION.UP
+var is_shooting = true
+
+func _ready():
+    bullet_timer.wait_time = cooldown
+    wave_timer.start()
+
+func _handle_timers():
+    # Si la oleada está parada y el temporizador de espera está parado
+    if wave_timer.is_stopped() and is_shooting:
+        wait_timer.start()
+        is_shooting = false
+    
+    if wait_timer.is_stopped() and not is_shooting:
+        wave_timer.start()
+        is_shooting = true
 
 func _physics_process(_delta):
     if not enabled:
         return
     
-    # Si la oleada está parada y el temporizador de espera está parado
-    if wave_timer.is_stopped() and wait_timer.is_stopped():
-        # Arrancamos el temporizador de espera
-        wait_timer.start()
-        return
-    # Si la oleada está parada y el temporizador de espera está activo    
-    elif wave_timer.is_stopped() and not wait_timer.is_stopped():
-        # Seguimos esperando
-        return
-    # Si el temporizador de espera está detenido y la oleada está detenida
-    elif wait_timer.is_stopped() and wave_timer.is_stopped():
-        # Arrancamos la oleada
-        wave_timer.start()
+    _handle_timers()
+    
+    if not is_shooting:
         return
 
     if bullet_timer.is_stopped():

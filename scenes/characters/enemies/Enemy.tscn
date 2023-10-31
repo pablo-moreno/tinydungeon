@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cv54oxdfq8n0"]
+[gd_scene load_steps=22 format=3 uid="uid://cv54oxdfq8n0"]
 
 [ext_resource type="Script" path="res://scenes/characters/enemies/Enemy.gd" id="1_x56fi"]
 [ext_resource type="PackedScene" uid="uid://dlwr6fh761ep3" path="res://scenes/utils/HealthBar.tscn" id="1_yhfo3"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="9_u6q1j"]
 [ext_resource type="Script" path="res://scripts/knockback_handler.gd" id="11_pdb3r"]
 [ext_resource type="Script" path="res://scripts/bullet_spawner.gd" id="13_eyeg0"]
+[ext_resource type="Texture2D" uid="uid://ku46t30iobf6" path="res://tiles/flame_02.png" id="14_ec23n"]
 [ext_resource type="Script" path="res://scripts/enemy_axis_shooting_attack.gd" id="14_piar3"]
 [ext_resource type="PackedScene" uid="uid://b0o4tdttcglg5" path="res://scenes/utils/TimerLabel.tscn" id="15_r0tfu"]
 [ext_resource type="Script" path="res://scripts/enemy_bullet_hell.gd" id="16_egxbw"]
@@ -53,6 +54,12 @@ radius = 7.0
 script = ExtResource("1_x56fi")
 movement_speed = 75.0
 
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("invulnerability_timer")]
+script = ExtResource("6_docnq")
+health = 50
+current_max_health = 50
+invulnerability_timer = NodePath("../Timers/HurtTimer")
+
 [node name="HealthBar" parent="." instance=ExtResource("1_yhfo3")]
 
 [node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("state")]
@@ -83,12 +90,6 @@ shape = SubResource("CapsuleShape2D_bwoan")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_eo8ve")
-
-[node name="Health" type="Node" parent="." node_paths=PackedStringArray("invulnerability_timer")]
-script = ExtResource("6_docnq")
-health = 50
-current_max_health = 50
-invulnerability_timer = NodePath("../Timers/HurtTimer")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(50, 0)
@@ -125,6 +126,7 @@ one_shot = true
 one_shot = true
 
 [node name="IdleTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
 one_shot = true
 
 [node name="WaveTimer" type="Timer" parent="Timers"]
@@ -142,12 +144,15 @@ script = ExtResource("11_pdb3r")
 
 [node name="BulletSpawner" type="Node2D" parent="."]
 script = ExtResource("13_eyeg0")
+bullet_texture = ExtResource("14_ec23n")
 
-[node name="AxisShootingAttack" type="Node2D" parent="." node_paths=PackedStringArray("spawner", "bullet_timer")]
+[node name="AxisShootingAttack" type="Node2D" parent="." node_paths=PackedStringArray("spawner", "bullet_timer", "wave_timer", "wait_timer")]
 script = ExtResource("14_piar3")
 spawner = NodePath("../BulletSpawner")
 bullet_timer = NodePath("../Timers/CooldownTimer")
 enabled = false
+wave_timer = NodePath("../Timers/WaveTimer")
+wait_timer = NodePath("../Timers/WaitTimer")
 
 [node name="TimerLabel" parent="." instance=ExtResource("15_r0tfu")]
 offset_left = -5.0

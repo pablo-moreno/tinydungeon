@@ -20,7 +20,7 @@ func _enter_state():
         is_idle = true
         idle_timer.start()
 
-    
+
 func _physics_process(_delta):
     if idle_timer.is_stopped() and is_idle:
         is_idle = false

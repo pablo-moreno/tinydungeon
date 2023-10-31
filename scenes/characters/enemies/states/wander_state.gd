@@ -4,6 +4,8 @@ extends EnemyState
 @export var ray_cast: RayCast2D
 
 signal found_player
+signal is_attacked
+
 
 func _ready() -> void:
     set_physics_process(false)
@@ -26,3 +28,4 @@ func _physics_process(_delta) -> void:
         return
     
     _move_to(Vector2.ZERO, 0.5)
+

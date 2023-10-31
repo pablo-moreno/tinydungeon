@@ -22,7 +22,7 @@ func _ready():
     bullet_timer.wait_time = cooldown
     wave_timer.start()
 
-func handle_timers():
+func _handle_timers():
     # Si la oleada está parada y el temporizador de espera está parado
     if wave_timer.is_stopped() and is_shooting:
         wait_timer.start()
@@ -37,7 +37,7 @@ func _physics_process(_delta):
     if not enabled:
         return
     
-    handle_timers()
+    _handle_timers()
     
     if not is_shooting:
         return
