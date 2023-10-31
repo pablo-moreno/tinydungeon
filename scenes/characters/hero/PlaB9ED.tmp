@@ -114,6 +114,7 @@ limit_top = 0
 script = ExtResource("5_6i6pd")
 
 [node name="Sword" parent="." instance=ExtResource("10_42pdp")]
+visible = false
 
 [node name="VibrationHandler" type="Node2D" parent="."]
 script = ExtResource("11_kkthg")
@@ -144,12 +145,9 @@ offset_bottom = 2.0
 script = ExtResource("13_p3mhh")
 target_collision_mask = 9
 target_collision_layer = 9
-shoot_speed = 150.0
 
-[node name="ShootAttack" type="Node" parent="." node_paths=PackedStringArray("bullet_spawner", "timer")]
+[node name="ShootAttack" type="Node" parent="."]
 script = ExtResource("14_4yhcf")
-bullet_spawner = NodePath("../BulletSpawner")
-timer = NodePath("../Timers/CooldownTimer")
 
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]
