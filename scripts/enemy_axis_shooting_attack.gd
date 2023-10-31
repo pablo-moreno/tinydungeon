@@ -4,6 +4,8 @@ extends Node2D
 @export var spawner: BulletSpawner = null
 @export var bullet_timer: Timer = null
 @export var enabled: bool = true
+@export var wave_timer: Timer = null
+@export var wait_timer: Timer = null
 
 enum ORIENTATION {
     UP,
@@ -14,6 +16,21 @@ var current_orientation = ORIENTATION.UP
 
 func _physics_process(_delta):
     if not enabled:
+        return
+    
+    # Si la oleada está parada y el temporizador de espera está parado
+    if wave_timer.is_stopped() and wait_timer.is_stopped():
+        # Arrancamos el temporizador de espera
+        wait_timer.start()
+        return
+    # Si la oleada está parada y el temporizador de espera está activo    
+    elif wave_timer.is_stopped() and not wait_timer.is_stopped():
+        # Seguimos esperando
+        return
+    # Si el temporizador de espera está detenido y la oleada está detenida
+    elif wait_timer.is_stopped() and wave_timer.is_stopped():
+        # Arrancamos la oleada
+        wave_timer.start()
         return
 
     if bullet_timer.is_stopped():

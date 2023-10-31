@@ -114,7 +114,6 @@ shape = SubResource("CircleShape2D_y0tpo")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
 radius = 50.0
-debug_enabled = true
 
 [node name="Timers" type="Node" parent="."]
 
@@ -127,6 +126,16 @@ one_shot = true
 
 [node name="IdleTimer" type="Timer" parent="Timers"]
 one_shot = true
+
+[node name="WaveTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="WaitTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
+one_shot = true
+autostart = true
 
 [node name="KnockbackHandler" type="Node" parent="."]
 script = ExtResource("11_pdb3r")
@@ -146,10 +155,12 @@ offset_top = -23.0
 offset_right = 12.0
 offset_bottom = 3.0
 
-[node name="EnemyBulletHellAttack" type="Node2D" parent="." node_paths=PackedStringArray("spawner", "bullet_timer")]
+[node name="EnemyBulletHellAttack" type="Node2D" parent="." node_paths=PackedStringArray("spawner", "bullet_timer", "wave_timer", "wait_timer")]
 script = ExtResource("16_egxbw")
 spawner = NodePath("../BulletSpawner")
 bullet_timer = NodePath("../Timers/CooldownTimer")
+wave_timer = NodePath("../Timers/WaveTimer")
+wait_timer = NodePath("../Timers/WaitTimer")
 
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]
