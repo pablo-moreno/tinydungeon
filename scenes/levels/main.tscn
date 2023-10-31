@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/hitbox.gd" id="1_6ktie"]
 [ext_resource type="Texture2D" uid="uid://c0syo2tj20566" path="res://tilemaps/dungeon.png" id="2_jqemq"]
-[ext_resource type="PackedScene" uid="uid://b70yvtehk4jb4" path="res://scenes/characters/hero/Player.tscn" id="3_xqtms"]
-[ext_resource type="PackedScene" uid="uid://rt7efydad4im" path="res://scenes/characters/enemies/Enemy.tscn" id="5_h5hss"]
+[ext_resource type="PackedScene" uid="uid://di60ig136xp53" path="res://scenes/characters/hero/Player.tscn" id="3_xqtms"]
+[ext_resource type="PackedScene" uid="uid://cv54oxdfq8n0" path="res://scenes/characters/enemies/Enemy.tscn" id="5_h5hss"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nyth"]
 radius = 6.08276
@@ -574,5 +574,11 @@ disabled = true
 [node name="Enemy" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_h5hss")]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(251, 133)
+position = Vector2(128, 126)
+target = NodePath("../Player")
+
+[node name="Enemy2" parent="." node_paths=PackedStringArray("target") instance=ExtResource("5_h5hss")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(212, 228)
 target = NodePath("../Player")
