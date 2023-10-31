@@ -20,7 +20,6 @@ func _ready():
     if texture != null:
         _sprite.texture = texture
     
-    
     _hitbox.collision_layer = hitbox_collision_layer
     _hitbox.collision_mask = hitbox_collision_mask
     _hitbox.damage = damage

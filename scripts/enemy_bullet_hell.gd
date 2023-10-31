@@ -5,6 +5,7 @@ extends Node2D
 @export var bullet_timer: Timer = null
 @export var enabled: bool = true
 @export var cooldown: float = 0.25
+@export var rotate_speed: float = 100
 
 
 enum ORIENTATION {
@@ -19,21 +20,15 @@ func _ready():
 
 
 func _physics_process(_delta):
+    var new_rotation = spawner.rotation_degrees + rotate_speed * _delta
+    spawner.rotation_degrees = fmod(new_rotation, 360)
     if not enabled:
         return
 
     if bullet_timer.is_stopped():
-        if current_orientation == ORIENTATION.UP:
-            spawner.shoot(deg_to_rad(0))
-            spawner.shoot(deg_to_rad(90))
-            spawner.shoot(deg_to_rad(180))
-            spawner.shoot(deg_to_rad(270))
-            current_orientation = ORIENTATION.ROTATED
-        else:
-            spawner.shoot(deg_to_rad(45))
-            spawner.shoot(deg_to_rad(135))
-            spawner.shoot(deg_to_rad(225))
-            spawner.shoot(deg_to_rad(315))
-            current_orientation = ORIENTATION.UP
+        spawner.shoot(deg_to_rad(spawner.rotation_degrees + 0))
+        spawner.shoot(deg_to_rad(spawner.rotation_degrees + 90))
+        spawner.shoot(deg_to_rad(spawner.rotation_degrees + 180))
+        spawner.shoot(deg_to_rad(spawner.rotation_degrees + 270))
             
         bullet_timer.start()
