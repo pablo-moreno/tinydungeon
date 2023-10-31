@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b70yvtehk4jb4"]
+[gd_scene load_steps=19 format=3 uid="uid://b70yvtehk4jb4"]
 
 [ext_resource type="Texture2D" uid="uid://c0syo2tj20566" path="res://tilemaps/dungeon.png" id="1_fddyo"]
 [ext_resource type="Script" path="res://scripts/movement.gd" id="1_j3hwt"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://45ye5ns7g7tt" path="res://scenes/attacks/Sword.tscn" id="10_42pdp"]
 [ext_resource type="Script" path="res://scripts/vibration_handler.gd" id="11_kkthg"]
 [ext_resource type="PackedScene" uid="uid://b6fdpvdinrt1s" path="res://scenes/attacks/BulletSpawner.tscn" id="12_yxtgp"]
+[ext_resource type="PackedScene" path="res://scenes/utils/TimerLabel.tscn" id="13_avs31"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uycce"]
 radius = 6.0
@@ -131,7 +132,14 @@ one_shot = true
 
 [node name="BulletSpawner" parent="." instance=ExtResource("12_yxtgp")]
 
+[node name="TimerLabel" parent="." instance=ExtResource("13_avs31")]
+offset_left = -6.0
+offset_top = -24.0
+offset_right = 11.0
+offset_bottom = 2.0
+
 [connection signal="change_health" from="Health" to="HealthBar" method="_on_health_change_health"]
 [connection signal="change_max_health" from="Health" to="HealthBar" method="_on_health_change_max_health"]
 [connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
 [connection signal="damaged" from="Health" to="VibrationHandler" method="_on_health_damaged"]
+[connection signal="damaged" from="Health" to="TimerLabel" method="_on_health_damaged"]

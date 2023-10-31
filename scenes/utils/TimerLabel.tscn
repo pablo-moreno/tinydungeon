@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0o4tdttcglg5"]
+
+[ext_resource type="Script" path="res://scripts/timer_label.gd" id="1_fvyc3"]
+
+[sub_resource type="SystemFont" id="SystemFont_2bxvc"]
+font_weight = 475
+
+[sub_resource type="LabelSettings" id="LabelSettings_imbs1"]
+font = SubResource("SystemFont_2bxvc")
+font_color = Color(0.917647, 0.227451, 0.286275, 1)
+shadow_size = 0
+
+[node name="TimerLabel" type="Label"]
+texture_filter = 1
+offset_left = -4.0
+offset_top = -6.0
+offset_right = 13.0
+offset_bottom = 20.0
+scale = Vector2(0.5, 0.5)
+text = "-5"
+label_settings = SubResource("LabelSettings_imbs1")
+script = ExtResource("1_fvyc3")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
